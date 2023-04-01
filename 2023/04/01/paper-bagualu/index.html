@@ -16,21 +16,21 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="这篇博客记录了我在学习分布式训练的过程中的相关知识与实践经验。 Quick StartCreate a new post1$ hexo new &quot;My New Post&quot;  More info: Writing Run server1$ hexo server  More info: Server Generate static files1$ hexo generate  M">
+    <meta name="description" content="背景 Method 性能评估    这篇论文来自PPoPP‘22：https:&#x2F;&#x2F;pacman.cs.tsinghua.edu.cn&#x2F;~zjd&#x2F;publication&#x2F;ppopp22-bagualu&#x2F;ppopp22-bagualu.pdf 背景目前大模型因为使用了大量的参数使其精确度达到了领域前沿，比如CV、NLP等领域都有比较典型的大模型运用实例。这里作者举了MoE（Mixture of">
 <meta property="og:type" content="article">
-<meta property="og:title" content="分布式训练学习笔记">
-<meta property="og:url" content="http://example.com/2023/03/21/hello-world/index.html">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2023/04/01/paper-bagualu/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="这篇博客记录了我在学习分布式训练的过程中的相关知识与实践经验。 Quick StartCreate a new post1$ hexo new &quot;My New Post&quot;  More info: Writing Run server1$ hexo server  More info: Server Generate static files1$ hexo generate  M">
+<meta property="og:description" content="背景 Method 性能评估    这篇论文来自PPoPP‘22：https:&#x2F;&#x2F;pacman.cs.tsinghua.edu.cn&#x2F;~zjd&#x2F;publication&#x2F;ppopp22-bagualu&#x2F;ppopp22-bagualu.pdf 背景目前大模型因为使用了大量的参数使其精确度达到了领域前沿，比如CV、NLP等领域都有比较典型的大模型运用实例。这里作者举了MoE（Mixture of">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-03-21T06:12:26.285Z">
-<meta property="article:modified_time" content="2023-04-01T05:05:43.108Z">
+<meta property="article:published_time" content="2023-04-01T08:02:12.896Z">
+<meta property="article:modified_time" content="2023-04-01T08:40:48.579Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>分布式训练学习笔记 - Hexo</title>
+  <title>Hexo</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -196,7 +196,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="分布式训练学习笔记"></span>
+            <span id="subtitle" data-typed-text=""></span>
           
         </div>
 
@@ -207,8 +207,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-03-21 14:12" pubdate>
-          2023年3月21日 下午
+        <time datetime="2023-04-01 16:02" pubdate>
+          2023年4月1日 下午
         </time>
       </span>
     
@@ -219,7 +219,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          239 字
+          816 字
         
       </span>
     
@@ -230,7 +230,7 @@
         
         
         
-          2 分钟
+          7 分钟
         
       </span>
     
@@ -268,25 +268,32 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">分布式训练学习笔记</h1>
+            <h1 style="display: none"></h1>
             
             
               <div class="markdown-body">
                 
-                <p>这篇博客记录了我在学习分布式训练的过程中的相关知识与实践经验。</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure>
+                <!-- toc -->
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure>
+<ul>
+<li><a href="#%E8%83%8C%E6%99%AF">背景</a></li>
+<li><a href="#method">Method</a></li>
+<li><a href="#%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0">性能评估</a></li>
+</ul>
+<!-- tocstop -->
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
+<p>这篇论文来自PPoPP‘22：<a target="_blank" rel="noopener" href="https://pacman.cs.tsinghua.edu.cn/~zjd/publication/ppopp22-bagualu/ppopp22-bagualu.pdf">https://pacman.cs.tsinghua.edu.cn/~zjd/publication/ppopp22-bagualu/ppopp22-bagualu.pdf</a></p>
+<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>目前大模型因为使用了大量的参数使其精确度达到了领域前沿，比如CV、NLP等领域都有比较典型的大模型运用实例。这里作者举了MoE（Mixture of Experts）的例子，这是一种通过多种子专家网络和一个门控开关控制哪些子网络被选取的网络结构，这种网络设计已经在机器翻译等领域取得了成功。</p>
+<p>但是目前大规模预训练模型仍然面临着一些问题，受到计算、存储、网络性能等多种因素的影响，因此目前的大模型是有潜力被继续拓展到更大规模的集群&#x2F;更多参数。</p>
+<p>本文要部署大模型的平台是新一代神威超级计算机（New Generation Sunway Supercomputer，1 EFLOPS peek performance）,基于这个背景，作者提出了这项工作所面临的挑战，个人认为也是这篇文章的核心问题。</p>
+<ol>
+<li>硬件架构：超级计算机的架构大多是专门设计的，需要精心设计以使得软件应用于硬件架构有效结合 以充分发挥硬件的优势</li>
+<li>存储容量：大模型和参数和中间结果需要占据大量的存储空间，为了放下这些内容我们需要对其进行划分，而不同的划分也会导致不同的通信策略</li>
+<li>并行策略：要在超大规模的超算上部署就需要重新设计并行策略，比如上文的MoE在只使用数据并行时会带来大量的AllReduce开销</li>
+<li>混合精度：传统科学计算问题多使用双精度，但是AI应用一般会使用单精度或者混合精度来最大化吞吐量。Sunway提供了多种精度，因为需要考虑混合精度如何充分利用的问题</li>
+</ol>
+<p>BaGuaLu 可以训练达到 14.5-trillion个参数使用1.002 EFLOPS的算力。BaGuaLu有能力拓展到174trillion个参数，这将和人脑中突触的数目相当。</p>
+<h3 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h3><h3 id="性能评估"><a href="#性能评估" class="headerlink" title="性能评估"></a>性能评估</h3>
                 
               </div>
             
@@ -303,8 +310,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>分布式训练学习笔记</div>
-      <div>http://example.com/2023/03/21/hello-world/</div>
+      <div></div>
+      <div>http://example.com/2023/04/01/paper-bagualu/</div>
     </div>
     <div class="license-meta">
       
@@ -316,7 +323,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年3月21日</div>
+          <div>2023年4月1日</div>
         </div>
       
       
@@ -351,6 +358,12 @@
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/2023/03/21/parallel-traing/" title="分布式训练学习笔记">
+                        <span class="hidden-mobile">分布式训练学习笔记</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>
