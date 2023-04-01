@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title>论文阅读笔记《BaGuaLu:Targeting Brain Scale Pretrained Models with over 37 Million Cores》</title>
+    <link href="/2023/04/01/paper-bagualu/"/>
+    <url>/2023/04/01/paper-bagualu/</url>
+    
+    <content type="html"><![CDATA[<!-- toc --><ul><li><a href="#%E8%83%8C%E6%99%AF">背景</a></li><li><a href="#method">Method</a></li><li><a href="#%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0">性能评估</a></li></ul><!-- tocstop --><p>这篇论文来自PPoPP‘22：<a href="https://pacman.cs.tsinghua.edu.cn/~zjd/publication/ppopp22-bagualu/ppopp22-bagualu.pdf">https://pacman.cs.tsinghua.edu.cn/~zjd/publication/ppopp22-bagualu/ppopp22-bagualu.pdf</a></p><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>目前大模型因为使用了大量的参数使其精确度达到了领域前沿，比如CV、NLP等领域都有比较典型的大模型运用实例。这里作者举了MoE（Mixture of Experts）的例子，这是一种通过多种子专家网络和一个门控开关控制哪些子网络被选取的网络结构，这种网络设计已经在机器翻译等领域取得了成功。</p><p>但是目前大规模预训练模型仍然面临着一些问题，受到计算、存储、网络性能等多种因素的影响，因此目前的大模型是有潜力被继续拓展到更大规模的集群&#x2F;更多参数。</p><p>本文要部署大模型的平台是新一代神威超级计算机（New Generation Sunway Supercomputer，1 EFLOPS peek performance）,基于这个背景，作者提出了这项工作所面临的挑战，个人认为也是这篇文章的核心问题。</p><ol><li>硬件架构：超级计算机的架构大多是专门设计的，需要精心设计以使得软件应用于硬件架构有效结合 以充分发挥硬件的优势</li><li>存储容量：大模型和参数和中间结果需要占据大量的存储空间，为了放下这些内容我们需要对其进行划分，而不同的划分也会导致不同的通信策略</li><li>并行策略：要在超大规模的超算上部署就需要重新设计并行策略，比如上文的MoE在只使用数据并行时会带来大量的AllReduce开销</li><li>混合精度：传统科学计算问题多使用双精度，但是AI应用一般会使用单精度或者混合精度来最大化吞吐量。Sunway提供了多种精度，因为需要考虑混合精度如何充分利用的问题</li></ol><p>BaGuaLu 可以训练达到 14.5-trillion个参数使用1.002 EFLOPS的算力。BaGuaLu有能力拓展到174trillion个参数，这将和人脑中突触的数目相当。</p><h3 id="Methods"><a href="#Methods" class="headerlink" title="Methods"></a>Methods</h3><h3 id="性能评估"><a href="#性能评估" class="headerlink" title="性能评估"></a>性能评估</h3>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>分布式训练学习笔记</title>
     <link href="/2023/03/21/parallel-traing/"/>
     <url>/2023/03/21/parallel-traing/</url>
