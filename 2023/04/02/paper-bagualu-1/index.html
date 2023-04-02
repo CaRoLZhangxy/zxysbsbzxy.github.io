@@ -23,16 +23,16 @@
 <meta property="og:site_name" content="Carol&#39;s site">
 <meta property="og:description" content="背景 Methods 节点内优化 混合并行策略 混合精度训练   性能评估 相关阅读链接    这篇论文来自PPoPP‘22：https:&#x2F;&#x2F;pacman.cs.tsinghua.edu.cn&#x2F;~zjd&#x2F;publication&#x2F;ppopp22-bagualu&#x2F;ppopp22-bagualu.pdf 背景目前大模型因为使用了大量的参数使其精确度达到了领域前沿，比如CV、NLP等领域都有比较典型">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://zxysbsbzxy.github.io/paper-bagualu-1/1.png">
-<meta property="og:image" content="https://zxysbsbzxy.github.io/paper-bagualu-1/2.png">
-<meta property="og:image" content="https://zxysbsbzxy.github.io/paper-bagualu-1/Sunway.png">
-<meta property="og:image" content="https://zxysbsbzxy.github.io/paper-bagualu-1/3.png">
-<meta property="og:image" content="https://zxysbsbzxy.github.io/paper-bagualu-1/4.png">
+<meta property="og:image" content="https://zxysbsbzxy.github.io/2023/04/02/paper-bagualu-1/1.png">
+<meta property="og:image" content="https://zxysbsbzxy.github.io/2023/04/02/paper-bagualu-1/2.png">
+<meta property="og:image" content="https://zxysbsbzxy.github.io/2023/04/02/paper-bagualu-1/Sunway.png">
+<meta property="og:image" content="https://zxysbsbzxy.github.io/2023/04/02/paper-bagualu-1/3.png">
+<meta property="og:image" content="https://zxysbsbzxy.github.io/2023/04/02/paper-bagualu-1/4.png">
 <meta property="article:published_time" content="2023-04-02T10:02:14.000Z">
-<meta property="article:modified_time" content="2023-04-02T10:21:34.770Z">
+<meta property="article:modified_time" content="2023-04-02T10:27:46.365Z">
 <meta property="article:author" content="zxy">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://zxysbsbzxy.github.io/paper-bagualu-1/1.png">
+<meta name="twitter:image" content="https://zxysbsbzxy.github.io/2023/04/02/paper-bagualu-1/1.png">
   
   
   
@@ -306,15 +306,15 @@
 </ol>
 <p>BaGuaLu 可以训练达到 14.5-trillion个参数使用1.002 EFLOPS的算力。BaGuaLu有能力拓展到174trillion个参数，这将和人脑中突触的数目相当。</p>
 <h3 id="Methods"><a href="#Methods" class="headerlink" title="Methods"></a>Methods</h3><h4 id="节点内优化"><a href="#节点内优化" class="headerlink" title="节点内优化"></a>节点内优化</h4><ol>
-<li>核组调度：一个MPE负责计算，其他5个MPE负责处理通信相关以最大限度降低通信开销，减少进程数<br><img src="/./paper-bagualu-1/1.png" srcset="/img/loading.gif" lazyload alt="1"></li>
-<li>内存划分：每一行都由位于对角线上的CPE接受DMA请求，之后再通过RMA传输<br><img src="/./paper-bagualu-1/2.png" srcset="/img/loading.gif" lazyload alt="2"></li>
+<li>核组调度：一个MPE负责计算，其他5个MPE负责处理通信相关以最大限度降低通信开销，减少进程数<br><img src="/2023/04/02/paper-bagualu-1/1.png" srcset="/img/loading.gif" lazyload alt="1"></li>
+<li>内存划分：每一行都由位于对角线上的CPE接受DMA请求，之后再通过RMA传输<br><img src="/2023/04/02/paper-bagualu-1/2.png" srcset="/img/loading.gif" lazyload alt="2"></li>
 </ol>
 <h4 id="混合并行策略"><a href="#混合并行策略" class="headerlink" title="混合并行策略"></a>混合并行策略</h4><ol>
-<li><p>Hybrid MoE parallelism and data parallelism strategy(MoDa)：模型并行与数据并行混合策略。也是并行训练中经常用到的优化方法。具体到本文中主要指针对神威的节点互联架构。如下图所示，对于右边这种胖树结构的节点布置，supernode间的通讯带宽是supernode内的通信带宽3&#x2F;16，因此需要考虑如何安排AlltoAll和AllReduce。文章中提到，经过测试发现AllReduce的次数是AlltoAll的16-24倍，因此将AllReduce安排在supernode内做，以减少通讯时间。<br><img src="/./paper-bagualu-1/Sunway.png" srcset="/img/loading.gif" lazyload alt="3"></p>
+<li><p>Hybrid MoE parallelism and data parallelism strategy(MoDa)：模型并行与数据并行混合策略。也是并行训练中经常用到的优化方法。具体到本文中主要指针对神威的节点互联架构。如下图所示，对于右边这种胖树结构的节点布置，supernode间的通讯带宽是supernode内的通信带宽3&#x2F;16，因此需要考虑如何安排AlltoAll和AllReduce。文章中提到，经过测试发现AllReduce的次数是AlltoAll的16-24倍，因此将AllReduce安排在supernode内做，以减少通讯时间。<br><img src="/2023/04/02/paper-bagualu-1/Sunway.png" srcset="/img/loading.gif" lazyload alt="3"></p>
 </li>
 <li><p>Parallel partition-based optimizer (ParO)：分割存储优化器等策略。这种优化策略在DeepSpeed提出的ZeRO中已经有过实现，主要是将梯度、参数、优化器等信息分别存储在不同的进程中以压缩存储空间。由于模型的规模较大，因此在本文中optimizer占据的空间可能只到其他数据的5%左右（参数、梯度、中间结果等）。因此，ParO只将十分之一到七分之一的参数进行全局共享。模型中的worker按照2D-grid存储，梯度首先在supernode内进行Reduce-Scatter（一个维度）之后在supernode间进行All-Reduce（另一个维度），更新之后，参数再在supernode内进行All-Gather。这种分割存储optimizer的方式有另一个好处，就是可以很方便的存储模型的checkpoint。</p>
 </li>
-<li><p>SunWay Imbalance Proficiently Eliminated (SWIPE)：这是一种实现负载均衡的策略。因为MoE存在的固有问题就是每次迭代都会有一部分的Expert处理很多的输入，而有一些Expert又很空闲。因此本文设计了一种算法：每个worker持有一个expert，接受一份输入，每个expert最后得到的样本数要求是相同的。首先获得每个输入样本对各个expert的打分，让每个样本去打分最高的expert那里，经过这一步之后，就会有一些样本溢出的和部分空闲的expert，之后每个worker根据对这个溢出数量和空闲容量表的查询进行分发，以达到负载均衡的目的。这样的算法只需要常数次通讯次数。<br><img src="/./paper-bagualu-1/3.png" srcset="/img/loading.gif" lazyload alt="4"></p>
+<li><p>SunWay Imbalance Proficiently Eliminated (SWIPE)：这是一种实现负载均衡的策略。因为MoE存在的固有问题就是每次迭代都会有一部分的Expert处理很多的输入，而有一些Expert又很空闲。因此本文设计了一种算法：每个worker持有一个expert，接受一份输入，每个expert最后得到的样本数要求是相同的。首先获得每个输入样本对各个expert的打分，让每个样本去打分最高的expert那里，经过这一步之后，就会有一些样本溢出的和部分空闲的expert，之后每个worker根据对这个溢出数量和空闲容量表的查询进行分发，以达到负载均衡的目的。这样的算法只需要常数次通讯次数。<br><img src="/2023/04/02/paper-bagualu-1/3.png" srcset="/img/loading.gif" lazyload alt="4"></p>
 </li>
 </ol>
 <h4 id="混合精度训练"><a href="#混合精度训练" class="headerlink" title="混合精度训练"></a>混合精度训练</h4><p>这里首先提出了常规大模型训练使用的一些混合精度策略，如NVIDIA的APEX：</p>
@@ -325,7 +325,7 @@
 <li>O3: FP16 training.</li>
 </ul>
 <p>在NVIDIA GPU上一般O1、O2的策略都能取得与O0相同的效果，但是在神威上这个结论却不生效。O1策略由于存在大量的数据类型转换，而神威的内存带宽较低，从而严重影响性能。而O2是因为FP16的数据过多造成了大量的overflow出现使得模型难以收敛。</p>
-<p>因此本文工作就对模型的每一层都进行不同策略实验，得到了最优配置如下。<br><img src="/./paper-bagualu-1/4.png" srcset="/img/loading.gif" lazyload alt="5"></p>
+<p>因此本文工作就对模型的每一层都进行不同策略实验，得到了最优配置如下。<br><img src="/2023/04/02/paper-bagualu-1/4.png" srcset="/img/loading.gif" lazyload alt="5"></p>
 <h3 id="性能评估"><a href="#性能评估" class="headerlink" title="性能评估"></a>性能评估</h3><p>略</p>
 <h3 id="相关阅读链接"><a href="#相关阅读链接" class="headerlink" title="相关阅读链接"></a>相关阅读链接</h3><ol>
 <li><a target="_blank" rel="noopener" href="https://laekov.com.cn/view/181401#howto">https://laekov.com.cn/view/181401#howto</a></li>
