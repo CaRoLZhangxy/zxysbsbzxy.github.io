@@ -29,7 +29,7 @@
 <meta property="og:image" content="https://zxysbsbzxy.github.io/2023/04/02/paper-bagualu-1/3.png">
 <meta property="og:image" content="https://zxysbsbzxy.github.io/2023/04/02/paper-bagualu-1/4.png">
 <meta property="article:published_time" content="2023-04-02T10:02:14.000Z">
-<meta property="article:modified_time" content="2023-04-02T10:33:40.704Z">
+<meta property="article:modified_time" content="2023-04-03T01:43:56.067Z">
 <meta property="article:author" content="zxy">
 <meta property="article:tag" content="论文阅读">
 <meta name="twitter:card" content="summary_large_image">
@@ -214,7 +214,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.4k 字
+          2.6k 字
         
       </span>
     
@@ -225,7 +225,7 @@
         
         
         
-          21 分钟
+          22 分钟
         
       </span>
     
@@ -303,7 +303,7 @@
 </li>
 <li><p>Parallel partition-based optimizer (ParO)：分割存储优化器等策略。这种优化策略在DeepSpeed提出的ZeRO中已经有过实现，主要是将梯度、参数、优化器等信息分别存储在不同的进程中以压缩存储空间。由于模型的规模较大，因此在本文中optimizer占据的空间可能只到其他数据的5%左右（参数、梯度、中间结果等）。因此，ParO只将十分之一到七分之一的参数进行全局共享。模型中的worker按照2D-grid存储，梯度首先在supernode内进行Reduce-Scatter（一个维度）之后在supernode间进行All-Reduce（另一个维度），更新之后，参数再在supernode内进行All-Gather。这种分割存储optimizer的方式有另一个好处，就是可以很方便的存储模型的checkpoint。</p>
 </li>
-<li><p>SunWay Imbalance Proficiently Eliminated (SWIPE)：这是一种实现负载均衡的策略。因为MoE存在的固有问题就是每次迭代都会有一部分的Expert处理很多的输入，而有一些Expert又很空闲。因此本文设计了一种算法：每个worker持有一个expert，接受一份输入，每个expert最后得到的样本数要求是相同的。首先获得每个输入样本对各个expert的打分，让每个样本去打分最高的expert那里，经过这一步之后，就会有一些样本溢出的和部分空闲的expert，之后每个worker根据对这个溢出数量和空闲容量表的查询进行分发，以达到负载均衡的目的。这样的算法只需要常数次通讯次数。<br><img src="/2023/04/02/paper-bagualu-1/3.png" srcset="/img/loading.gif" lazyload alt="4"></p>
+<li><p>SunWay Imbalance Proficiently Eliminated (SWIPE)：这是一种实现负载均衡的策略。因为MoE存在的固有问题就是每次迭代都会有一部分的Expert处理很多的输入，而有一些Expert又很空闲。因此本文设计了一种算法：每个worker持有一个expert，接受一份输入，每个expert最后得到的样本数要求是相同的。首先获得每个输入样本对各个expert的打分，让每个样本去打分最高的expert那里，经过这一步之后，就会有一些样本溢出的和部分空闲的expert，之后每个worker根据对这个溢出数量和空闲容量表的查询进行分发，以达到负载均衡的目的。这样的算法只需要常数次通讯次数。一个更近一步的优化在与本文相关的另一篇PPoPP’22的文章中阐述（<a target="_blank" rel="noopener" href="https://dl.acm.org/doi/10.1145/3503221.3508418%EF%BC%89%EF%BC%8C%E5%8F%AF%E4%BB%A5%E5%AE%9E%E7%8E%B0%E4%B8%80%E7%A7%8D%E8%80%83%E8%99%91%E7%BD%91%E7%BB%9C%E6%8B%93%E6%89%91%E7%9A%84%E9%97%A8%E7%BD%91%E7%BB%9C%EF%BC%88Topology-aware">https://dl.acm.org/doi/10.1145/3503221.3508418），可以实现一种考虑网络拓扑的门网络（Topology-aware</a> Gate），考虑硬件连接的拓扑关系. 限制跨机器选择专家的输入数量.让多余的输入按照分数重新在本节点内选择一个喜欢的专家来进行处理，即考虑了节点间通讯延迟的gate。<br><img src="/2023/04/02/paper-bagualu-1/3.png" srcset="/img/loading.gif" lazyload alt="4"></p>
 </li>
 </ol>
 <h4 id="混合精度训练"><a href="#混合精度训练" class="headerlink" title="混合精度训练"></a>混合精度训练</h4><p>这里首先提出了常规大模型训练使用的一些混合精度策略，如NVIDIA的APEX：</p>
