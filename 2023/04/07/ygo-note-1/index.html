@@ -16,22 +16,25 @@
   <meta name="author" content="zxy">
   <meta name="keywords" content="">
   
-    <meta name="description" content="并行训练概要 数据并行 模型并行    这篇博客记录了我在学习分布式训练的过程中的相关知识与实践经验。 并行训练概要并行训练主要需要解决的痛点是两个：  大模型训练时间过长 单个GPU显存有限，可能无法完整的容纳一个模型  分布式训练技术可以通过将模型部署到多个GPU上来解决上述两个问题。可以分为数据并行、张量并行以及流水线并行 数据并行模型并行">
+    <meta name="description" content="前言本文要讲的卡组是以深渊兽、卫星闪灵以及一定数量的光暗2星调整组成，通过资源调度做出混沌魔龙积累大量墓地资源，最终目的是做出淘气精灵链接端的两只同调怪兽以及卫星闪灵系统的软阻抗。由于游戏王四月表的更新，深渊之兽的核心赫界龙和卫星闪灵的核心蓝色喷流灵都遭到了限一规制，因此本套卡组也就不复存在。这篇文章的意义也不过是纪念我的第一次参加大型比赛时所用的卡组，当然也在这套卡组上投入了不少心血。 卡组构筑">
 <meta property="og:type" content="article">
-<meta property="og:title" content="分布式训练学习笔记">
-<meta property="og:url" content="https://zxysbsbzxy.github.io/2023/04/02/parrel-training/index.html">
+<meta property="og:title" content="致以逝去的朋友——《2023年1月表深渊闪灵同调卡组攻略文档》">
+<meta property="og:url" content="https://zxysbsbzxy.github.io/2023/04/07/ygo-note-1/index.html">
 <meta property="og:site_name" content="Carol&#39;s site">
-<meta property="og:description" content="并行训练概要 数据并行 模型并行    这篇博客记录了我在学习分布式训练的过程中的相关知识与实践经验。 并行训练概要并行训练主要需要解决的痛点是两个：  大模型训练时间过长 单个GPU显存有限，可能无法完整的容纳一个模型  分布式训练技术可以通过将模型部署到多个GPU上来解决上述两个问题。可以分为数据并行、张量并行以及流水线并行 数据并行模型并行">
+<meta property="og:description" content="前言本文要讲的卡组是以深渊兽、卫星闪灵以及一定数量的光暗2星调整组成，通过资源调度做出混沌魔龙积累大量墓地资源，最终目的是做出淘气精灵链接端的两只同调怪兽以及卫星闪灵系统的软阻抗。由于游戏王四月表的更新，深渊之兽的核心赫界龙和卫星闪灵的核心蓝色喷流灵都遭到了限一规制，因此本套卡组也就不复存在。这篇文章的意义也不过是纪念我的第一次参加大型比赛时所用的卡组，当然也在这套卡组上投入了不少心血。 卡组构筑">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-04-02T10:06:10.000Z">
-<meta property="article:modified_time" content="2023-04-02T10:33:46.084Z">
+<meta property="og:image" content="https://zxysbsbzxy.github.io/2023/04/07/ygo-note-1/%E4%B8%BB%E5%8D%A1%E7%BB%84.png">
+<meta property="og:image" content="https://zxysbsbzxy.github.io/2023/04/07/ygo-note-1/extra-side.png">
+<meta property="article:published_time" content="2023-04-07T00:29:05.000Z">
+<meta property="article:modified_time" content="2023-04-07T00:44:12.326Z">
 <meta property="article:author" content="zxy">
-<meta property="article:tag" content="学习笔记">
+<meta property="article:tag" content="游戏王ocg">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zxysbsbzxy.github.io/2023/04/07/ygo-note-1/%E4%B8%BB%E5%8D%A1%E7%BB%84.png">
   
   
   
-  <title>分布式训练学习笔记 - Carol&#39;s site</title>
+  <title>致以逝去的朋友——《2023年1月表深渊闪灵同调卡组攻略文档》 - Carol&#39;s site</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -185,7 +188,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="分布式训练学习笔记"></span>
+            <span id="subtitle" data-typed-text="致以逝去的朋友——《2023年1月表深渊闪灵同调卡组攻略文档》"></span>
           
         </div>
 
@@ -196,8 +199,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-04-02 18:06" pubdate>
-          2023年4月2日 晚上
+        <time datetime="2023-04-07 08:29" pubdate>
+          2023年4月7日 早上
         </time>
       </span>
     
@@ -208,7 +211,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          161 字
+          199 字
         
       </span>
     
@@ -257,28 +260,14 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">分布式训练学习笔记</h1>
+            <h1 style="display: none">致以逝去的朋友——《2023年1月表深渊闪灵同调卡组攻略文档》</h1>
             
             
               <div class="markdown-body">
                 
-                <!-- toc -->
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文要讲的卡组是以深渊兽、卫星闪灵以及一定数量的光暗2星调整组成，通过资源调度做出混沌魔龙积累大量墓地资源，最终目的是做出淘气精灵链接端的两只同调怪兽以及卫星闪灵系统的软阻抗。由于游戏王四月表的更新，深渊之兽的核心赫界龙和卫星闪灵的核心蓝色喷流灵都遭到了限一规制，因此本套卡组也就不复存在。这篇文章的意义也不过是纪念我的第一次参加大型比赛时所用的卡组，当然也在这套卡组上投入了不少心血。</p>
+<h2 id="卡组构筑"><a href="#卡组构筑" class="headerlink" title="卡组构筑"></a>卡组构筑</h2><p><img src="/2023/04/07/ygo-note-1/%E4%B8%BB%E5%8D%A1%E7%BB%84.png" srcset="/img/loading.gif" lazyload alt="1"><br><img src="/2023/04/07/ygo-note-1/extra-side.png" srcset="/img/loading.gif" lazyload alt="2"></p>
 
-<ul>
-<li><a href="#%E5%B9%B6%E8%A1%8C%E8%AE%AD%E7%BB%83%E6%A6%82%E8%A6%81">并行训练概要</a></li>
-<li><a href="#%E6%95%B0%E6%8D%AE%E5%B9%B6%E8%A1%8C">数据并行</a></li>
-<li><a href="#%E6%A8%A1%E5%9E%8B%E5%B9%B6%E8%A1%8C">模型并行</a></li>
-</ul>
-<!-- tocstop -->
-
-<p>这篇博客记录了我在学习分布式训练的过程中的相关知识与实践经验。</p>
-<h3 id="并行训练概要"><a href="#并行训练概要" class="headerlink" title="并行训练概要"></a>并行训练概要</h3><p>并行训练主要需要解决的痛点是两个：</p>
-<ol>
-<li>大模型训练时间过长</li>
-<li>单个GPU显存有限，可能无法完整的容纳一个模型</li>
-</ol>
-<p>分布式训练技术可以通过将模型部署到多个GPU上来解决上述两个问题。可以分为数据并行、张量并行以及流水线并行</p>
-<h3 id="数据并行"><a href="#数据并行" class="headerlink" title="数据并行"></a>数据并行</h3><h3 id="模型并行"><a href="#模型并行" class="headerlink" title="模型并行"></a>模型并行</h3>
                 
               </div>
             
@@ -290,7 +279,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">#学习笔记</a>
+        <a href="/tags/%E6%B8%B8%E6%88%8F%E7%8E%8Bocg/">#游戏王ocg</a>
       
     </div>
   
@@ -302,8 +291,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>分布式训练学习笔记</div>
-      <div>https://zxysbsbzxy.github.io/2023/04/02/parrel-training/</div>
+      <div>致以逝去的朋友——《2023年1月表深渊闪灵同调卡组攻略文档》</div>
+      <div>https://zxysbsbzxy.github.io/2023/04/07/ygo-note-1/</div>
     </div>
     <div class="license-meta">
       
@@ -315,7 +304,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年4月2日</div>
+          <div>2023年4月7日</div>
         </div>
       
       
@@ -347,18 +336,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/04/07/ygo-note-1/" title="致以逝去的朋友——《2023年1月表深渊闪灵同调卡组攻略文档》">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">致以逝去的朋友——《2023年1月表深渊闪灵同调卡组攻略文档》</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/04/02/paper-bagualu-1/" title="论文阅读笔记《BaGuaLu:Targeting Brain Scale Pretrained Models with over 37 Million Cores》">
-                        <span class="hidden-mobile">论文阅读笔记《BaGuaLu:Targeting Brain Scale Pretrained Models with over 37 Million Cores》</span>
+                      <a href="/2023/04/02/parrel-training/" title="分布式训练学习笔记">
+                        <span class="hidden-mobile">分布式训练学习笔记</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
